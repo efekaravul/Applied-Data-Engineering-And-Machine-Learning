@@ -1,21 +1,37 @@
-# 🐍 Python Learning Journey
+# 📊 Applied Data Science & Machine Learning Portfolio
 
-This repository contains the codes I wrote during my Python learning process, algorithms I solved, and data analysis practices.
-
----
-
-## 📂 Contents
-
-* **Error Handling:** Exception handling with `try-except` blocks.
-* **List Comprehension & Built-in Functions:** Usages of `map`, `filter`, `lambda`, `any`, `all` and single-line data operations.
-* **Numpy:** Array creation, indexing, mathematical vector operations, and practical exercises.
-* **Pandas:** Series and DataFrame structures, data indexing/filtering, missing data management, and advanced data manipulation operations like `groupby`, `concat`, `merge`, `apply`.
-* **Data Visualization (Matplotlib & Seaborn):** Fundamentals of plotting, axis management, statistical visualizations, bar/scatter plots, and style customizations.
-* **Exploratory Data Analysis (EDA):** Inspecting raw data on the Wine Quality dataset, correlation analysis, and EDA processes *(Published on Kaggle!)*.
-* **Feature Engineering:** Examination of missing data types (**MCAR**, **MAR**, **MNAR**) and practical imputation methods such as median/mean filling and KNN Imputer.
+Welcome to my technical portfolio! This repository contains applied data science projects, end-to-end feature engineering pipelines, and machine learning preparations. It serves as a showcase of my ability to clean messy real-world data, extract insights, and build solid foundations for predictive modeling.
 
 ---
 
-## 🎯 My Goal
+## 🚀 Featured Projects & Pipelines
 
-Solidifying all Python fundamentals from scratch to advanced; building a strong foundation for data science and data engineering processes.
+### 1. Google Play Store: Data Preprocessing & Feature Engineering
+*A complete pipeline to prepare messy data for machine learning.*
+* **Data Cleaning:** Handled missing values safely and standardized complex string metrics (`Size`, `Installs`, `Price`) into usable numeric formats.
+* **Categorical Encoding:** Applied **Ordinal Encoding** (e.g., Content Rating) and **Label Encoding** (e.g., Free vs. Paid).
+* **Exploratory Data Analysis (EDA):** Generated correlation heatmaps to uncover mathematical relationships between app metrics.
+
+### 2. Wine Quality: Exploratory Data Analysis (EDA)
+*Statistical analysis and visualization of raw data.*
+* **Insights:** Conducted deep correlation analysis and inspected raw data distributions to identify key features affecting wine quality. *(Published on Kaggle!)*
+* **Visualization:** Utilized advanced Matplotlib and Seaborn techniques for statistical plotting.
+
+### 3. Advanced Missing Data Management
+*Handling incomplete datasets robustly for ML models.*
+* **Mechanisms:** Examined missing data types (**MCAR**, **MAR**, **MNAR**).
+* **Imputation Techniques:** Applied practical imputation methods including median/mean filling and **KNN Imputer** via Scikit-Learn.
+
+---
+
+## 🛠️ Technical Skills & Stack
+
+* **Data Manipulation & Analysis:** `Pandas`, `NumPy` (Vectorized operations, advanced indexing, `groupby`, `merge`, `concat`).
+* **Machine Learning Preprocessing:** `Scikit-Learn` (Imputers, Encoders, Data Scaling).
+* **Data Visualization:** `Matplotlib`, `Seaborn` (Statistical plots, correlation heatmaps, custom styling).
+* **Advanced Python:** List comprehensions, `lambda`, `map`, `filter`, exception handling (`try-except`), and optimized single-line data operations.
+
+---
+
+## 🎯 Current Focus
+Transitioning from data analysis to **Data Engineering & Machine Learning**. My current goal is building scalable data pipelines, developing predictive machine learning models, and applying data-driven solutions to real-world business problems.
