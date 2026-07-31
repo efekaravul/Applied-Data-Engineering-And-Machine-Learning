@@ -12,24 +12,40 @@ Welcome to my technical portfolio! This repository contains applied data science
 * **Categorical Encoding:** Applied **Ordinal Encoding** (e.g., Content Rating) and **Label Encoding** (e.g., Free vs. Paid).
 * **Exploratory Data Analysis (EDA):** Generated correlation heatmaps to uncover mathematical relationships between app metrics.
 
-### 2. Wine Quality: Exploratory Data Analysis (EDA)
+### 2. Predictive Modeling: Student Performance (Linear Regression)
+*End-to-end machine learning workflow using Simple and Multiple Linear Regression.*
+* **Preprocessing Pipeline:** Executed Train-Test splits and applied **Z-Score Standardization** (`StandardScaler`) accurately to prevent data leakage.
+* **Algorithm Implementation:** Developed robust `Scikit-Learn` linear regression models to predict student performance indices based on independent variables like study hours and extracurricular activities.
+* **Model Evaluation:** Assessed predictive accuracy using standard regression metrics including Mean Absolute Error (MAE), Mean Squared Error (MSE), and achieved an $R^2$ score of ~0.98.
+
+### 3. Wine Quality: Exploratory Data Analysis (EDA)
 *Statistical analysis and visualization of raw data.*
 * **Insights:** Conducted deep correlation analysis and inspected raw data distributions to identify key features affecting wine quality. *(Published on Kaggle!)*
 * **Visualization:** Utilized advanced Matplotlib and Seaborn techniques for statistical plotting.
 
-### 3. Advanced Missing Data Management
+### 4. Advanced Missing Data Management
 *Handling incomplete datasets robustly for ML models.*
 * **Mechanisms:** Examined missing data types (**MCAR**, **MAR**, **MNAR**).
 * **Imputation Techniques:** Applied practical imputation methods including median/mean filling and **KNN Imputer** via Scikit-Learn.
 
 ---
 
+## 📂 Repository Structure
+
+*   `Machine Learning/`: Contains Jupyter Notebooks for `simple_linear_regression.ipynb`, `multiple-linear-regression.ipynb`, and practical examples.
+*   `Feature Engineering/`: Contains modular notebooks for encoding, missing data handling, and EDA.
+*   `Data Visualization - Matplotlib & Seaborn/`: Fundamentals of statistical plotting.
+*   `Pandas & Numpy/`: Advanced array manipulations, missing data management, and data aggregations.
+
+---
+
 ## 🛠️ Technical Skills & Stack
 
-* **Data Manipulation & Analysis:** `Pandas`, `NumPy` (Vectorized operations, advanced indexing, `groupby`, `merge`, `concat`).
-* **Machine Learning Preprocessing:** `Scikit-Learn` (Imputers, Encoders, Data Scaling).
-* **Data Visualization:** `Matplotlib`, `Seaborn` (Statistical plots, correlation heatmaps, custom styling).
-* **Advanced Python:** List comprehensions, `lambda`, `map`, `filter`, exception handling (`try-except`), and optimized single-line data operations.
+* **Data Manipulation & Analysis:** `Pandas`, `NumPy`
+* **Machine Learning & Modeling:** `Scikit-Learn` (Linear Regression, Train/Test Split, StandardScaler, Imputers, Encoders)
+* **Model Evaluation:** MAE, MSE, $R^2$ Score
+* **Data Visualization:** `Matplotlib`, `Seaborn` (Statistical plots, correlation heatmaps)
+* **Advanced Python:** List comprehensions, `lambda`, exception handling (`try-except`), and optimized single-line data operations.
 
 ---
 
