@@ -1,0 +1,16 @@
+# Virtual environment
+.venv/
+venv/
+
+# IDE
+.idea/
+
+# Python
+__pycache__/
+*.pyc
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Datasets (kept locally, not versioned)
+Data/

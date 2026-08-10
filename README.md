@@ -38,11 +38,20 @@ Welcome to my technical portfolio! This repository contains applied data science
 
 ## 📂 Repository Structure
 
-*   `Machine Learning/Linear Regression/`: Contains end-to-end notebooks for multiple linear regression models (e.g., `phone_price_prediction.ipynb`, `linear_regression_practice.ipynb`).
-*   `Machine Learning/PolynomialRegression/`: Contains modular notebooks for handling non-linear data using polynomial feature engineering.
-*   `Feature Engineering/`: Contains modular notebooks for encoding, missing data handling, and EDA.
-*   `Data Visualization - Matplotlib & Seaborn/`: Fundamentals of statistical plotting and heatmaps.
-*   `Pandas & Numpy/`: Advanced array manipulations, missing data management, and data aggregations.
+The repository is organized as a numbered learning path, from Python fundamentals to applied machine learning:
+
+*   `01 - Python Fundamentals/`: List comprehensions, lambda/built-in functions, and error handling exercises.
+*   `02 - Numpy/`: Array creation, indexing, and vectorized operations.
+*   `03 - Pandas/`: DataFrame manipulation, indexing, grouping, merging, and missing-data handling.
+*   `04 - Data Visualization - Matplotlib/`: Core plotting fundamentals and styling.
+*   `05 - Data Visualization - Seaborn/`: Statistical plotting, EDA, and styled visualizations.
+*   `06 - Feature Engineering/`: Encoding, missing data strategies, and exploratory feature analysis.
+*   `07 - Machine Learning/`
+    *   `Linear Regression/`: End-to-end notebooks for simple & multiple linear regression models (e.g., `phone_price_prediction.ipynb`).
+    *   `Polynomial Regression/`: Modular notebooks for modeling non-linear data with polynomial feature engineering.
+    *   `Logistic Regression/`: Binary/multiclass classification, hyperparameter tuning, and applied practice notebooks.
+
+> Datasets referenced by the notebooks live in a local `Data/` folder, which is intentionally excluded from version control (see `.gitignore`) to keep the repository lightweight.
 
 ---
 

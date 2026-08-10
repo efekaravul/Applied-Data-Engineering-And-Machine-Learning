@@ -14,3 +14,8 @@ print(df_grouped["Salary"].mean()) # Departmanlara göre maaşların ortalaması
 df_grouped_2 = df.groupby("City")
 print(df_grouped_2.describe())
 print(df_grouped_2["Salary"].mean()) # Şehirlere göre kazanılan maaş ortalamasını hesaplar.
+
+df_new = pd.read_csv("../Data/6-employee.csv")
+
+print(df_new.head())
+print(df_new.describe())
