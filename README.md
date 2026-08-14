@@ -6,30 +6,47 @@ Welcome to my technical portfolio! This repository contains applied data science
 
 ## 🚀 Featured Projects & Pipelines
 
-### 1. Google Play Store: Data Preprocessing & Feature Engineering
+### 1. SMS Spam Detection: Text Classification with Naive Bayes
+*Natural language classification on the UCI SMS Spam Collection (5,572 messages). [Published on Kaggle](https://www.kaggle.com/code/efekaravul/sms-spam-multinomial-naive-bayes-practice).*
+* **Text Vectorization:** Converted raw message text into a Bag-of-Words matrix with `CountVectorizer`, fitting the vocabulary **exclusively on the training split** to prevent data leakage (4,135 × 7,596 sparse feature matrix).
+* **Data Integrity:** Diagnosed and removed 403 duplicate messages that would otherwise leak between train and test sets, and handled non-UTF-8 (`latin-1`) source encoding.
+* **Imbalanced Classification:** Applied **stratified splitting** (`stratify=y`) on a 13% minority class and evaluated with a confusion matrix and per-class precision/recall/F1 rather than accuracy alone — achieving **98.7% accuracy** with **0.98 precision / 0.92 recall** on the spam class.
+
+### 2. Iris Species Classification: Gaussian Naive Bayes
+*Probabilistic multiclass classification on continuous measurements. [Published on Kaggle](https://www.kaggle.com/code/efekaravul/iris-species-gaussian-naive-bayes).*
+* **Algorithm Selection:** Contrasted `GaussianNB` (continuous, normally distributed features) against `MultinomialNB` (discrete count data), demonstrating how the distributional assumption drives model choice.
+* **EDA & Visualization:** Used Seaborn pairplots to verify class separability and the per-class normality assumption before modeling.
+* **Results:** 100% accuracy on the held-out test set, reported with the caveats of a small (30-row) evaluation sample.
+
+### 3. Diamond Price Prediction: Linear Regression vs. Support Vector Regression
+*Benchmarking a tuned non-linear model against a baseline on ~54,000 records. [Published on Kaggle](https://www.kaggle.com/code/efekaravul/diamond-price-svm-regression-practice).*
+* **Hyperparameter Optimization:** Tuned an **SVR** model via `GridSearchCV` and compared it against a Linear Regression baseline.
+* **Preprocessing Pipeline:** Executed duplicate removal, outlier treatment, ordinal encoding of categorical grades (cut, color, clarity), and feature scaling — a prerequisite for distance-based algorithms like SVM.
+
+### 4. Google Play Store: Data Preprocessing & Feature Engineering
 *A complete pipeline to prepare unstructured data for machine learning.*
 * **Data Cleaning:** Handled missing values safely and standardized complex string metrics (`Size`, `Installs`, `Price`) into usable numeric formats.
 * **Categorical Encoding:** Applied **Ordinal Encoding** (e.g., Content Rating) and **Label Encoding** (e.g., Free vs. Paid).
 * **Exploratory Data Analysis (EDA):** Generated correlation heatmaps to uncover mathematical relationships between app metrics.
 
-### 2. Predictive Modeling: Capturing Non-Linear Relationships (Polynomial Regression)
+### 5. Predictive Modeling: Capturing Non-Linear Relationships (Polynomial Regression)
 *Advanced feature engineering to model complex, curved datasets.*
 * **Architectures:** Modeled industrial manufacturing quality and biological metrics (Fish Weight prediction).
 * **Feature Engineering:** Utilized `PolynomialFeatures(degree=2)` to create interaction terms and squared features, allowing the algorithm to learn non-linear patterns.
 * **Model Evaluation:** Effectively minimized error metrics and achieved $R^2$ scores exceeding 0.92 across complex datasets.
 
-### 3. Predictive Modeling: Market & Health Metrics (Linear Regression)
+### 6. Predictive Modeling: Market & Health Metrics (Linear Regression)
 *End-to-end machine learning workflows using Simple and Multiple Linear Regression.*
 * **Pipelines:** Predicted student performance indices, medical insurance charges, and phone market prices.
 * **Data Integrity:** Executed strict Train-Test splits and applied **Z-Score Standardization** (`StandardScaler`) before model training to absolutely prevent data leakage.
 * **Algorithm Implementation:** Developed robust `Scikit-Learn` regression models, handling binary categorical mapping smoothly. 
 
-### 4. Wine Quality: Exploratory Data Analysis (EDA)
+### 7. Wine Quality: Exploratory Data Analysis (EDA)
 *Statistical analysis and visualization of raw data.*
 * **Insights:** Conducted deep correlation analysis and inspected raw data distributions to identify key features affecting wine quality. *(Published on Kaggle!)*
 * **Visualization:** Utilized advanced Matplotlib and Seaborn techniques for statistical plotting.
 
-### 5. Advanced Missing Data Management
+### 8. Advanced Missing Data Management
 *Handling incomplete datasets robustly for ML models.*
 * **Mechanisms:** Examined missing data types (**MCAR**, **MAR**, **MNAR**).
 * **Imputation Techniques:** Applied practical imputation methods including median/mean filling and **KNN Imputer** via Scikit-Learn.
@@ -50,6 +67,8 @@ The repository is organized as a numbered learning path, from Python fundamental
     *   `Linear Regression/`: End-to-end notebooks for simple & multiple linear regression models (e.g., `phone_price_prediction.ipynb`).
     *   `Polynomial Regression/`: Modular notebooks for modeling non-linear data with polynomial feature engineering.
     *   `Logistic Regression/`: Binary/multiclass classification, hyperparameter tuning, and applied practice notebooks.
+    *   `Support Vector Machine/`: Kernel-based regression (SVR) benchmarked against a linear baseline, with `GridSearchCV` hyperparameter search.
+    *   `Naive Bayes/`: Probabilistic classification — `GaussianNB` on continuous features (`naive_bayes_iris.ipynb`) and `MultinomialNB` on Bag-of-Words text features (`naive_bayes_practice.ipynb`).
 
 > Datasets referenced by the notebooks live in a local `Data/` folder, which is intentionally excluded from version control (see `.gitignore`) to keep the repository lightweight.
 
@@ -57,9 +76,13 @@ The repository is organized as a numbered learning path, from Python fundamental
 
 ## 🛠️ Technical Skills & Stack
 
-* **Machine Learning & Modeling:** `Scikit-Learn` (Linear & Polynomial Regression, Train/Test Split, StandardScaler, Imputers, Encoders)
+* **Regression:** `Scikit-Learn` — Simple/Multiple Linear Regression, Polynomial Features, Support Vector Regression (SVR)
+* **Classification:** Logistic Regression, Support Vector Machines, Gaussian & Multinomial Naive Bayes
+* **Natural Language Processing:** Text vectorization with `CountVectorizer` (Bag of Words), sparse matrix handling
+* **Preprocessing:** Train/Test Split (incl. stratified sampling), `StandardScaler`, Imputers, Ordinal/Label Encoding, duplicate & outlier removal, leakage-safe `fit`/`transform` discipline
 * **Data Manipulation & Analysis:** `Pandas`, `NumPy`
-* **Model Evaluation:** MAE, MSE, RMSE, $R^2$ Score
+* **Model Evaluation:** MAE, MSE, RMSE, $R^2$ Score; Confusion Matrix, Precision, Recall, F1-Score for imbalanced classification
+* **Hyperparameter Tuning:** `GridSearchCV`
 * **Data Visualization:** `Matplotlib`, `Seaborn` (Statistical plots, correlation heatmaps)
 * **Software Engineering:** Modular code architecture, Git version control (Conventional Commits), bilingual technical documentation.
 
