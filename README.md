@@ -18,10 +18,11 @@ Welcome to my technical portfolio! This repository contains applied data science
 * **EDA & Visualization:** Used Seaborn pairplots to verify class separability and the per-class normality assumption before modeling.
 * **Results:** 100% accuracy on the held-out test set, reported with the caveats of a small (30-row) evaluation sample.
 
-### 3. Diamond Price Prediction: Linear Regression vs. Support Vector Regression
-*Benchmarking a tuned non-linear model against a baseline on ~54,000 records. [Published on Kaggle](https://www.kaggle.com/code/efekaravul/diamond-price-svm-regression-practice).*
-* **Hyperparameter Optimization:** Tuned an **SVR** model via `GridSearchCV` and compared it against a Linear Regression baseline.
-* **Preprocessing Pipeline:** Executed duplicate removal, outlier treatment, ordinal encoding of categorical grades (cut, color, clarity), and feature scaling — a prerequisite for distance-based algorithms like SVM.
+### 3. Support Vector Machines: The Kernel Trick, Classification & Regression
+*Two studies on how kernels reshape decision boundaries.*
+* **Kernel Trick, Demonstrated:** On a non-linearly separable seismic dataset, manually engineered polynomial features (squares and interaction terms) and visualized the transformed space in 3D with `Plotly` — then showed an **RBF-kernel `SVC`** solving the same problem implicitly on the raw features, reaching 100% test accuracy where a linear kernel collapses to 40%.
+* **Kernel Comparison & Tuning:** Benchmarked linear vs. RBF kernels on a loan-risk dataset and searched `C`, `kernel`, `degree` and `gamma` via 5-fold `GridSearchCV`.
+* **Diamond Price Regression:** Tuned an **SVR** model against a Linear Regression baseline on ~54,000 records, with duplicate removal, outlier treatment, ordinal encoding of categorical grades, and feature scaling. *([Published on Kaggle](https://www.kaggle.com/code/efekaravul/diamond-price-svm-regression-practice).)*
 
 ### 4. Google Play Store: Data Preprocessing & Feature Engineering
 *A complete pipeline to prepare unstructured data for machine learning.*
@@ -67,7 +68,7 @@ The repository is organized as a numbered learning path, from Python fundamental
     *   `Linear Regression/`: End-to-end notebooks for simple & multiple linear regression models (e.g., `phone_price_prediction.ipynb`).
     *   `Polynomial Regression/`: Modular notebooks for modeling non-linear data with polynomial feature engineering.
     *   `Logistic Regression/`: Binary/multiclass classification, hyperparameter tuning, and applied practice notebooks.
-    *   `Support Vector Machine/`: Kernel-based regression (SVR) benchmarked against a linear baseline, with `GridSearchCV` hyperparameter search.
+    *   `Support Vector Machine/`: Kernel-based classification (`SVC`) and regression (`SVR`), covering the kernel trick and `GridSearchCV` hyperparameter search.
     *   `Naive Bayes/`: Probabilistic classification — `GaussianNB` on continuous features (`naive_bayes_iris.ipynb`) and `MultinomialNB` on Bag-of-Words text features (`naive_bayes_practice.ipynb`).
 
 > Datasets referenced by the notebooks live in a local `Data/` folder, which is intentionally excluded from version control (see `.gitignore`) to keep the repository lightweight.
