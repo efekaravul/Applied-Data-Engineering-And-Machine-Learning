@@ -17,3 +17,6 @@ Data/
 
 # Local AI assistant config (not part of the public portfolio)
 CLAUDE.md
+
+# KNN loan-approval practice notebook (kept local only)
+07 - Machine Learning/KNN/KNN_practice.ipynb
