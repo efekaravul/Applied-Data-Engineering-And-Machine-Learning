@@ -6,66 +6,74 @@ Welcome to my technical portfolio! This repository contains applied data science
 
 ## 🚀 Featured Projects & Pipelines
 
-### 1. Income Evaluation: Random Forest & the Silent-Column-Drop Pitfall
+### 1. AdaBoost: Boosting, Encoding by Cardinality & What Tuning Actually Buys You
+*Two studies on sequential ensembles — where boosting transforms a model, and where it barely moves.*
+* **Used Car Price Regression — R² 0.63 → 0.91 through tuning:** An `AdaBoostRegressor` on 15,411 CarDekho listings scored **R² = 0.633** out of the box. A 240-fit `GridSearchCV` over `n_estimators`, `learning_rate`, `loss` and weak-learner depth lifted it to **R² = 0.907**, cutting MSE to **a quarter** of its original value (2.76×10¹¹ → 7.01×10¹⁰). The search settled on `max_depth=5` stumps with `learning_rate=0.1` and `n_estimators=200` — a concrete demonstration of the **inverse relationship** between learning rate and estimator count, and evidence that AdaBoost's default `max_depth=3` learner was simply too weak for the problem. `loss="linear"` beat `"square"` and `"exponential"`, as predicted: a handful of Ferraris and Rolls-Royces in the data make squared/exponential error weighting actively harmful. *([Published on Kaggle](https://www.kaggle.com/code/efekaravul/used-car-price-adaboost-regression).)*
+* **Encoding Chosen by Cardinality, Not by Habit:** The dataset mixes 3-category columns with a 120-category `model` column. One-hot encoding everything would have added ~150 sparse columns, so `OneHotEncoder` was applied only to the low-cardinality columns while `brand` and `model` went through scikit-learn's cross-fitted **`TargetEncoder`**, collapsing 152 categories into 2 numeric columns without leaking the target. A third column, `car_name`, was identified as the literal concatenation of `brand` + `model` and dropped as redundant.
+* **A `ColumnTransformer` Misconception, Caught by an Error:** An early version listed `StandardScaler` as a third entry in the `ColumnTransformer`, expecting it to scale the target-encoded output. It failed with `could not convert string to float: 'Volvo'` — because a `ColumnTransformer`'s transformers run **in parallel** on the original raw columns, never on each other's output. The scaler had to be *chained inside* the encoder's own `Pipeline` instead.
+* **Diabetes Classification — Where Accuracy Lies:** An `AdaBoostClassifier` on the Pima Indians dataset hit **73.9% accuracy** while recalling only **44%** of actual diabetics. Tuning with `scoring="f1"` rather than `"accuracy"` — deliberately, because optimizing accuracy on an imbalanced target rewards leaning on the majority class — moved accuracy just one point to **75.0%**, but raised positive-class recall to **0.50** and F1 from **0.56 → 0.60**. The honest read: boosting was near its ceiling on this dataset, and the value of the tuning was in *where* the error moved, not in the headline number. *([Published on Kaggle](https://www.kaggle.com/code/efekaravul/diabetes-prediction-adaboost-classifier).)*
+* **Missing Values That `isnull()` Cannot See:** `isnull().sum()` reported zero missing values in the diabetes data — but `describe()` showed a **minimum of 0** for `Glucose`, `BloodPressure`, `SkinThickness`, `Insulin` and `BMI`, all physiologically impossible. The missing entries were encoded as `0`, hiding **374 absent `Insulin` readings (49% of the column)**. They were converted to `NaN` and mean-imputed, and outliers were then removed with the IQR rule — a step that matters more for boosting than for most algorithms, since AdaBoost actively *increases* the weight of the points it predicts worst.
+
+### 2. Income Evaluation: Random Forest & the Silent-Column-Drop Pitfall
 *Binary income classification (`<=50K` / `>50K`) on the UCI Adult / Census Income dataset (30,139 rows after cleaning). [Published on Kaggle](https://www.kaggle.com/code/efekaravul/income-evaluation-random-forest-classification).*
 * **A `ColumnTransformer` Pitfall, Caught and Fixed:** `ColumnTransformer`'s default `remainder="drop"` silently discards any column not explicitly listed in a transformer. An early version only listed the 6 nominal categorical columns for one-hot encoding, which meant `age`, `education-num`, `capital-gain`, `capital-loss`, `hours-per-week`, and `sex` were dropped from the model with no error raised. Fixed with `remainder="passthrough"` — confirmed by the fact that after the fix, every one of the top-5 most important features in the trained model turned out to be one of the previously-dropped numeric columns.
 * **Mixed-Type Encoding Strategy:** Applied `OneHotEncoder` to 6 nominal categorical columns (`workclass`, `marital-status`, `occupation`, `relationship`, `race`, `native-country`, expanding to 80 dummy columns) to avoid implying a false order, while a binary column (`sex`) was mapped directly rather than one-hot encoded.
 * **Results & Interpretability:** **84.7% accuracy** with a stratified train/test split on a 76/24 imbalanced target; per-class F1 of 0.90 (`<=50K`) and 0.67 (`>50K`). `feature_importances_` ranked `age` (22.7%), `education-num` (12.9%), `hours-per-week` (11.4%), and `capital-gain` (10.7%) as the strongest predictors.
 
-### 2. Decision Trees: Depth, Regularization & the Cost of an Untuned Tree
+### 3. Decision Trees: Depth, Regularization & the Cost of an Untuned Tree
 *Two studies on how a single hyperparameter decides what a tree can and cannot see.*
 * **When a Fixed Depth Hides Entire Classes:** On the UCI Car Evaluation dataset, a hand-picked `max_depth=3` scored 79% accuracy — but with **0 precision and 0 recall on both minority classes** (`good`, `vgood`). Accuracy alone concealed a model that had simply defaulted to the majority label. A 5-fold `GridSearchCV` over `criterion`, `splitter`, `max_depth` and `max_features` selected unlimited depth and lifted accuracy to **98.4%**, with strong per-class scores across all four classes.
 * **Order-Preserving Encoding:** Applied `OrdinalEncoder` with explicitly declared category orders (`low < med < high < vhigh`) rather than relying on the default alphabetical mapping, which would have ranked `high` below `low`; encoding is fit inside a `ColumnTransformer` on the training split only.
 * **California Housing Regression:** Tuned a `DecisionTreeRegressor` on 20,640 districts, searching `criterion`, `max_depth` and `min_samples_leaf` by `r2` — the search settled on unlimited depth paired with `min_samples_leaf=20`, showing that depth and leaf-size regularization must be tuned *together*. **R² ≈ 0.73**, MAE ≈ 0.40. *([Published on Kaggle](https://www.kaggle.com/code/efekaravul/california-housing-decision-tree-regression).)*
 
-### 3. Mobile Price Classification: K-Nearest Neighbors & the Limits of Feature Scaling
+### 4. Mobile Price Classification: K-Nearest Neighbors & the Limits of Feature Scaling
 *Four-class price-bracket prediction from phone hardware specs. [Published on Kaggle](https://www.kaggle.com/code/efekaravul/mobile-price-range-knn-classification).*
 * **A Counter-Example to a Rule of Thumb:** Scaling is usually treated as mandatory for distance-based models, but here `StandardScaler` **cost 32 accuracy points** (93.2% → 60.8%). With one feature (`ram`) correlating 0.917 with the target while the other 19 hover near noise, standardizing strips away the natural weight of the only informative signal — a result established by tuning both variants independently rather than asserting it.
 * **Leakage-Safe Architecture:** All preprocessing lives inside a `Pipeline` + `ColumnTransformer`, so imputation and scaling statistics are refit on each fold's training portion during cross-validation — a guarantee manual preprocessing cannot offer.
 * **Systematic Tuning:** 5-fold `GridSearchCV` over 52 combinations of `n_neighbors` and `weights`, with the resulting bias-variance curve plotted to show the overfitting/underfitting boundary. **93.2% test accuracy** against a 25% baseline, with errors concentrated between adjacent price brackets as expected for an ordered target.
 
-### 4. SMS Spam Detection: Text Classification with Naive Bayes
+### 5. SMS Spam Detection: Text Classification with Naive Bayes
 *Natural language classification on the UCI SMS Spam Collection (5,572 messages). [Published on Kaggle](https://www.kaggle.com/code/efekaravul/sms-spam-multinomial-naive-bayes-practice).*
 * **Text Vectorization:** Converted raw message text into a Bag-of-Words matrix with `CountVectorizer`, fitting the vocabulary **exclusively on the training split** to prevent data leakage (4,135 × 7,596 sparse feature matrix).
 * **Data Integrity:** Diagnosed and removed 403 duplicate messages that would otherwise leak between train and test sets, and handled non-UTF-8 (`latin-1`) source encoding.
 * **Imbalanced Classification:** Applied **stratified splitting** (`stratify=y`) on a 13% minority class and evaluated with a confusion matrix and per-class precision/recall/F1 rather than accuracy alone — achieving **98.7% accuracy** with **0.98 precision / 0.92 recall** on the spam class.
 
-### 5. Iris Species Classification: Gaussian Naive Bayes
+### 6. Iris Species Classification: Gaussian Naive Bayes
 *Probabilistic multiclass classification on continuous measurements. [Published on Kaggle](https://www.kaggle.com/code/efekaravul/iris-species-gaussian-naive-bayes).*
 * **Algorithm Selection:** Contrasted `GaussianNB` (continuous, normally distributed features) against `MultinomialNB` (discrete count data), demonstrating how the distributional assumption drives model choice.
 * **EDA & Visualization:** Used Seaborn pairplots to verify class separability and the per-class normality assumption before modeling.
 * **Results:** 100% accuracy on the held-out test set, reported with the caveats of a small (30-row) evaluation sample.
 
-### 6. Support Vector Machines: The Kernel Trick, Classification & Regression
+### 7. Support Vector Machines: The Kernel Trick, Classification & Regression
 *Two studies on how kernels reshape decision boundaries.*
 * **Kernel Trick, Demonstrated:** On a non-linearly separable seismic dataset, manually engineered polynomial features (squares and interaction terms) and visualized the transformed space in 3D with `Plotly` — then showed an **RBF-kernel `SVC`** solving the same problem implicitly on the raw features, reaching 100% test accuracy where a linear kernel collapses to 40%.
 * **Kernel Comparison & Tuning:** Benchmarked linear vs. RBF kernels on a loan-risk dataset and searched `C`, `kernel`, `degree` and `gamma` via 5-fold `GridSearchCV`.
 * **Diamond Price Regression:** Tuned an **SVR** model against a Linear Regression baseline on ~54,000 records, with duplicate removal, outlier treatment, ordinal encoding of categorical grades, and feature scaling. *([Published on Kaggle](https://www.kaggle.com/code/efekaravul/diamond-price-svm-regression-practice).)*
 
-### 7. Google Play Store: Data Preprocessing & Feature Engineering
+### 8. Google Play Store: Data Preprocessing & Feature Engineering
 *A complete pipeline to prepare unstructured data for machine learning.*
 * **Data Cleaning:** Handled missing values safely and standardized complex string metrics (`Size`, `Installs`, `Price`) into usable numeric formats.
 * **Categorical Encoding:** Applied **Ordinal Encoding** (e.g., Content Rating) and **Label Encoding** (e.g., Free vs. Paid).
 * **Exploratory Data Analysis (EDA):** Generated correlation heatmaps to uncover mathematical relationships between app metrics.
 
-### 8. Predictive Modeling: Capturing Non-Linear Relationships (Polynomial Regression)
+### 9. Predictive Modeling: Capturing Non-Linear Relationships (Polynomial Regression)
 *Advanced feature engineering to model complex, curved datasets.*
 * **Architectures:** Modeled industrial manufacturing quality and biological metrics (Fish Weight prediction).
 * **Feature Engineering:** Utilized `PolynomialFeatures(degree=2)` to create interaction terms and squared features, allowing the algorithm to learn non-linear patterns.
 * **Model Evaluation:** Effectively minimized error metrics and achieved $R^2$ scores exceeding 0.92 across complex datasets.
 
-### 9. Predictive Modeling: Market & Health Metrics (Linear Regression)
+### 10. Predictive Modeling: Market & Health Metrics (Linear Regression)
 *End-to-end machine learning workflows using Simple and Multiple Linear Regression.*
 * **Pipelines:** Predicted student performance indices, medical insurance charges, and phone market prices.
 * **Data Integrity:** Executed strict Train-Test splits and applied **Z-Score Standardization** (`StandardScaler`) before model training to absolutely prevent data leakage.
 * **Algorithm Implementation:** Developed robust `Scikit-Learn` regression models, handling binary categorical mapping smoothly. 
 
-### 10. Wine Quality: Exploratory Data Analysis (EDA)
+### 11. Wine Quality: Exploratory Data Analysis (EDA)
 *Statistical analysis and visualization of raw data.*
 * **Insights:** Conducted deep correlation analysis and inspected raw data distributions to identify key features affecting wine quality. *(Published on Kaggle!)*
 * **Visualization:** Utilized advanced Matplotlib and Seaborn techniques for statistical plotting.
 
-### 11. Advanced Missing Data Management
+### 12. Advanced Missing Data Management
 *Handling incomplete datasets robustly for ML models.*
 * **Mechanisms:** Examined missing data types (**MCAR**, **MAR**, **MNAR**).
 * **Imputation Techniques:** Applied practical imputation methods including median/mean filling and **KNN Imputer** via Scikit-Learn.
@@ -83,7 +91,7 @@ The repository is organized as a numbered learning path, from Python fundamental
 *   `05 - Data Visualization - Seaborn/`: Statistical plotting, EDA, and styled visualizations.
 *   `06 - Feature Engineering/`: Encoding, missing data strategies, and exploratory feature analysis.
 *   `07 - Machine Learning/`
-    *   `Ensemble Techniques And Random Forest/`: `RandomForestClassifier` on the Adult/Census Income dataset (`Random Forest.ipynb`) — nominal-vs-binary encoding strategy, and a documented `ColumnTransformer` `remainder="drop"` pitfall that was caught via feature-importance analysis.
+    *   `Ensemble Techniques And Random Forest/`: Bagging vs. boosting — `RandomForestClassifier` on the Adult/Census Income dataset (`random_forest.ipynb`), plus `AdaBoostClassifier` on the Pima Indians Diabetes data (`adaboost_classifier.ipynb`) and `AdaBoostRegressor` on the CarDekho used-car data (`adaboost_regression.ipynb`) — cardinality-driven encoding (`TargetEncoder` vs. `OneHotEncoder`), hidden missing values encoded as `0`, IQR outlier removal, and a documented `ColumnTransformer` `remainder="drop"` pitfall caught via feature-importance analysis.
     *   `Linear Regression/`: End-to-end notebooks for simple & multiple linear regression models (e.g., `phone_price_prediction.ipynb`).
     *   `Polynomial Regression/`: Modular notebooks for modeling non-linear data with polynomial feature engineering.
     *   `Logistic Regression/`: Binary/multiclass classification, hyperparameter tuning, and applied practice notebooks.
@@ -101,9 +109,9 @@ The repository is organized as a numbered learning path, from Python fundamental
 
 * **Regression:** `Scikit-Learn` — Simple/Multiple Linear Regression, Polynomial Features, Support Vector Regression (SVR), Decision Tree Regression
 * **Classification:** Logistic Regression, Support Vector Machines, Gaussian & Multinomial Naive Bayes, K-Nearest Neighbors, Decision Trees (binary & multiclass)
-* **Ensemble Methods:** `RandomForestClassifier`, feature-importance analysis for model interpretability and pipeline debugging
+* **Ensemble Methods:** Bagging (`RandomForestClassifier`) and boosting (`AdaBoostClassifier`, `AdaBoostRegressor`) — weak-learner depth, `learning_rate`/`n_estimators` trade-off, boosting `loss` functions, and feature-importance analysis for model interpretability and pipeline debugging
 * **Natural Language Processing:** Text vectorization with `CountVectorizer` (Bag of Words), sparse matrix handling
-* **Preprocessing:** Train/Test Split (incl. stratified sampling), `StandardScaler`, Imputers, One-Hot/Ordinal/Label Encoding, duplicate & outlier removal, leakage-safe `fit`/`transform` discipline
+* **Preprocessing:** Train/Test Split (incl. stratified sampling), `StandardScaler`, Imputers, One-Hot/Ordinal/Label/**Target** Encoding (cross-fitted for high-cardinality columns), IQR-based outlier removal, duplicate removal, leakage-safe `fit`/`transform` discipline
 * **ML Pipelines:** `Pipeline` and `ColumnTransformer` for per-column-group preprocessing, with transformers refit inside every cross-validation fold to eliminate leakage end-to-end
 * **Data Manipulation & Analysis:** `Pandas`, `NumPy`
 * **Model Evaluation:** MAE, MSE, RMSE, $R^2$ Score; Confusion Matrix, Precision, Recall, F1-Score for imbalanced classification
