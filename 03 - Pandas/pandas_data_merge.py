@@ -1,8 +1,8 @@
 import pandas as pd
 import numpy as np
 
-df_1 = pd.read_csv("../Data/7-merge_data1.csv")
-df_2 = pd.read_csv("../Data/7-merge_data2.csv")
+df_1 = pd.read_csv("../07 - Machine Learning/Data/7-merge_data1.csv")
+df_2 = pd.read_csv("../07 - Machine Learning/Data/7-merge_data2.csv")
 
 print(df_1)
 

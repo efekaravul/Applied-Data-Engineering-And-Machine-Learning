@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-df = pd.read_csv("../Data/6-employee.csv")
+df = pd.read_csv("../07 - Machine Learning/Data/6-employee.csv")
 print(df.head())
 print(df.describe())
 print(df[["Salary","Experience"]].mean()) #Salary ve Experiencesın ortalamasını yazdırır.
@@ -15,7 +15,7 @@ df_grouped_2 = df.groupby("City")
 print(df_grouped_2.describe())
 print(df_grouped_2["Salary"].mean()) # Şehirlere göre kazanılan maaş ortalamasını hesaplar.
 
-df_new = pd.read_csv("../Data/6-employee.csv")
+df_new = pd.read_csv("../07 - Machine Learning/Data/6-employee.csv")
 
 print(df_new.head())
 print(df_new.describe())

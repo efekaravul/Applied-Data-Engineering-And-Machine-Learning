@@ -1,8 +1,8 @@
 import pandas as pd
 import numpy as np
 
-pd_1 = pd.read_csv("../Data/7-concat_data1.csv")
-pd_2 = pd.read_csv("../Data/7-concat_data2.csv")
+pd_1 = pd.read_csv("../07 - Machine Learning/Data/7-concat_data1.csv")
+pd_2 = pd.read_csv("../07 - Machine Learning/Data/7-concat_data2.csv")
 print(pd_1)
 print(pd_2)
 

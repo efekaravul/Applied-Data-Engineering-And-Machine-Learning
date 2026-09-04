@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 from openpyxl.reader.excel import load_workbook
 
-df = pd.read_csv("../Data/8-apply_function_data.csv")
+df = pd.read_csv("../07 - Machine Learning/Data/8-apply_function_data.csv")
 
 def salary_category(salary):
      if salary < 50000:
